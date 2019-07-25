@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 按钮的背景选择器 -->
+    <item android:state_pressed="false" android:drawable="@mipmap/camera_font"/>
+    <item android:state_pressed="true" android:drawable="@mipmap/camera_back"/>
+</selector>

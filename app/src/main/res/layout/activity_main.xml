@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:background="@color/colorPrimaryDark">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="10dp"
+                android:padding="10dp"
+                android:visibility="gone"
+                android:src="@mipmap/icon_player_back" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="悬浮框"
+                android:textSize="18sp"
+                android:textColor="#ffffff"
+                android:gravity="center"
+                android:layout_gravity="center"/>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="10dp"
+                android:padding="10dp"
+                android:visibility="gone"
+                android:src="@mipmap/icon_close" />
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_one"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_margin="10dp"
+            android:background="#ff00"
+            android:padding="10dp"
+            android:text="One"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:textSize="26sp" />
+
+        <Button
+            android:id="@+id/btn_two"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_margin="10dp"
+            android:background="#f0f"
+            android:padding="10dp"
+            android:text="Two"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:textSize="26sp" />
+
+        <Button
+            android:id="@+id/btn_three"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_margin="10dp"
+            android:background="#0fffff"
+            android:padding="10dp"
+            android:text="Three"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:textSize="26sp" />
+
+        <Button
+            android:id="@+id/btn_four"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_margin="10dp"
+            android:background="#00ff00"
+            android:padding="10dp"
+            android:text="Four"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:textSize="26sp" />
+
+        <Button
+            android:id="@+id/btn_five"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_margin="10dp"
+            android:background="#ff00ff"
+            android:padding="10dp"
+            android:text="Four"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:textSize="26sp" />
+
+    </LinearLayout>
+
+</ScrollView>
