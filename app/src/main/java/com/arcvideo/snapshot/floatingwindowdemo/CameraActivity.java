@@ -9,10 +9,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.ImageFormat;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,8 +25,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -36,7 +35,9 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -47,6 +48,7 @@ import java.io.IOException;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cc.ibooker.zcountdownviewlib.SingleCountDownView;
 
 public class CameraActivity extends MPermissionsActivity implements SurfaceHolder.Callback, Camera.PreviewCallback {
 
@@ -83,6 +85,13 @@ public class CameraActivity extends MPermissionsActivity implements SurfaceHolde
 
     private static boolean isInit = true;
     private static boolean isScale = true;
+    private static boolean isShowScale = true;
+    @BindView(R.id.video_view)
+    VideoView videoView;
+    @BindView(R.id.singleCountDownView)
+    SingleCountDownView singleCountDownView;
+    private MediaController controller;//控制器
+    private MediaController controllerFloat;//控制器
 
     private SurfaceHolder mHolder;//用来管理图像的绘制
     private Camera mCamera;//摄像头对象
@@ -124,6 +133,104 @@ public class CameraActivity extends MPermissionsActivity implements SurfaceHolde
 //                }
 //            }
 //        });
+
+        isShowScale = true;
+
+        //实例化控制器
+        controller = new MediaController(this);
+        //设置播放文件路径
+        String uri = "android.resource://" + getPackageName() + "/" + R.raw.test;
+        //设置播放源
+        videoView.setVideoURI(Uri.parse(uri));
+        //设置控制器
+        videoView.setMediaController(controller);
+        //给控制器设置播放器控件
+        controller.setMediaPlayer(videoView);
+        videoView.requestFocus();//获取焦点
+        //设置视频加载回调
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                //播放视频
+                videoView.start();
+            }
+        });
+
+        // 单个倒计时点击事件监听
+        singleCountDownView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                singleCountDownView.setText("开始倒计时");
+                singleCountDownView.setTextColor(Color.parseColor("#FF7198"));
+                // 开启倒计时
+                singleCountDownView.setTime(1000)
+                        .setTimeColorHex("#FF7198")
+                        .setTimePrefixText("倒计时:  ")
+                        .setTimeSuffixText("  s")
+                        .startCountDown();
+
+            }
+        });
+
+        singleCountDownView.setSingleCountDownEndListener(new SingleCountDownView.SingleCountDownEndListener() {
+            @Override
+            public void onSingleCountDownEnd() {
+                Toast.makeText(CameraActivity.this, "倒计时结束", Toast.LENGTH_SHORT).show();
+                singleCountDownView.setText("开始倒计时");
+                singleCountDownView.setTextColor(Color.parseColor("#BBBBBB"));
+            }
+        });
+
+        Log.e(TAG, "倒计时: " + singleCountDownView.getDrawingTime());
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.e(TAG, "执行onRestart()");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.e(TAG, "执行onStart()");
+    }
+
+    /**
+     * 界面运行时调用
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e(TAG, "执行onResume()");
+//        boolean b = checkCameraHardware();
+//        Log.e(TAG, " " + b);
+//        if (checkCameraHardware()) {
+//            mHolder = surface.getHolder();//获取控制绘制的对象
+//            mHolder.addCallback(this);//设置回调监听
+//        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.e(TAG, "执行onPause()");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.e(TAG, "执行onStop()");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.e(TAG, "执行onDestroy()");
+        Log.e(TAG, "isShowScale:  " + isShowScale);
+        if (!isShowScale) {
+            remove();
+        }
     }
 
     @OnClick({R.id.iv_back_btn, R.id.iv_small_btn})
@@ -135,7 +242,12 @@ public class CameraActivity extends MPermissionsActivity implements SurfaceHolde
                 break;
 
             case R.id.iv_small_btn:
-                showFloatingWindow();
+                Log.e(TAG, "isShowScale:  " + isShowScale);
+                if (isShowScale) {
+                    showFloatingWindow();
+                } else {
+                    Toast.makeText(this, "首先关闭悬浮窗", Toast.LENGTH_SHORT).show();
+                }
 //                finish();
                 break;
 
@@ -178,6 +290,8 @@ public class CameraActivity extends MPermissionsActivity implements SurfaceHolde
 
     @SuppressLint("ClickableViewAccessibility")
     private void showWindow() {
+
+//        isShowScale = false;
 
         //            // 设置显示的模式
         //            mLayout.format = PixelFormat.RGBA_8888;
@@ -223,7 +337,7 @@ public class CameraActivity extends MPermissionsActivity implements SurfaceHolde
         ////            params.width = DensityUtil.dp2px(context, 180);
         ////            params.height = DensityUtil.dp2px(context, 100);
         params.width = DensityUtil.dp2px(this, 300);
-        params.height = DensityUtil.dp2px(this, 400);
+        params.height = DensityUtil.dp2px(this, 600);
         //
         //获取浮动窗口视图所在布局.
         toucherLayout = new FrameLayout(this);
@@ -231,6 +345,8 @@ public class CameraActivity extends MPermissionsActivity implements SurfaceHolde
         ImageView imageViewClose = inflateView.findViewById(R.id.btn_small);
         SurfaceView flaotSurface = inflateView.findViewById(R.id.surface);
         ImageButton btnTakePhoto = inflateView.findViewById(R.id.btn_take_photo);
+        VideoView videoViewFloat = inflateView.findViewById(R.id.video_view_float);
+        SingleCountDownView singleCountDownViewFloat = inflateView.findViewById(R.id.singleCountDownView_Float);
 
         toucherLayout.addView(inflateView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
@@ -240,7 +356,54 @@ public class CameraActivity extends MPermissionsActivity implements SurfaceHolde
             windowManager.addView(toucherLayout, params);
         } else {
             windowManager.updateViewLayout(toucherLayout, params);
+            remove();
         }
+
+        //实例化控制器
+        controllerFloat = new MediaController(this);
+        //设置播放文件路径
+        String uriFloat = "android.resource://" + getPackageName() + "/" + R.raw.test;
+        //设置播放源
+        videoViewFloat.setVideoURI(Uri.parse(uriFloat));
+        //设置控制器
+        videoViewFloat.setMediaController(controllerFloat);
+        //给控制器设置播放器控件
+        controllerFloat.setMediaPlayer(videoViewFloat);
+        videoViewFloat.requestFocus();//获取焦点
+        //设置视频加载回调
+        videoViewFloat.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                //播放视频
+                videoViewFloat.start();
+            }
+        });
+
+        //倒计时
+        // 单个倒计时点击事件监听
+        singleCountDownViewFloat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                singleCountDownViewFloat.setText("开始倒计时");
+                singleCountDownViewFloat.setTextColor(Color.parseColor("#FF7198"));
+                // 开启倒计时
+                singleCountDownViewFloat.setTime(1000)
+                        .setTimeColorHex("#FF7198")
+                        .setTimePrefixText("倒计时:  ")
+                        .setTimeSuffixText("  s")
+                        .startCountDown();
+
+            }
+        });
+
+        singleCountDownViewFloat.setSingleCountDownEndListener(new SingleCountDownView.SingleCountDownEndListener() {
+            @Override
+            public void onSingleCountDownEnd() {
+                Toast.makeText(CameraActivity.this, "倒计时结束", Toast.LENGTH_SHORT).show();
+                singleCountDownViewFloat.setText("开始倒计时");
+                singleCountDownViewFloat.setTextColor(Color.parseColor("#BBBBBB"));
+            }
+        });
 
         if (checkCameraHardware()) {
             mHolder = flaotSurface.getHolder();//获取控制绘制的对象
@@ -262,8 +425,10 @@ public class CameraActivity extends MPermissionsActivity implements SurfaceHolde
             public void onClick(View v) {
                 if (isScale) {
                     Toast.makeText(CameraActivity.this, "变小", Toast.LENGTH_SHORT).show();
+                    btnTakePhoto.setImageDrawable(getResources().getDrawable(R.mipmap.course_fullscrence_icon_defa));
+
                     params.width = DensityUtil.dp2px(CameraActivity.this, 180);
-                    params.height = DensityUtil.dp2px(CameraActivity.this, 200);
+                    params.height = DensityUtil.dp2px(CameraActivity.this, 280);
 
                     if (isInit) {
                         windowManager.addView(toucherLayout, params);
@@ -273,8 +438,10 @@ public class CameraActivity extends MPermissionsActivity implements SurfaceHolde
                     isScale = false;
                 } else {
                     Toast.makeText(CameraActivity.this, "点击变大", Toast.LENGTH_SHORT).show();
+                    btnTakePhoto.setImageDrawable(getResources().getDrawable(R.mipmap.course_fullscrence_icon_hen));
+
                     params.width = DensityUtil.dp2px(CameraActivity.this, 300);
-                    params.height = DensityUtil.dp2px(CameraActivity.this, 400);
+                    params.height = DensityUtil.dp2px(CameraActivity.this, 600);
 
                     if (isInit) {
                         windowManager.addView(toucherLayout, params);
@@ -324,17 +491,19 @@ public class CameraActivity extends MPermissionsActivity implements SurfaceHolde
                         float fmoveX = event.getRawX();
                         float fmoveY = event.getRawY();
 
-//                        if (Math.abs(fmoveX - start_X) < offset && Math.abs(fmoveY - start_Y) < offset) {
-//                            isMoved = false;
-//
-//                            Intent intent = new Intent(CameraActivity.this, CameraActivity.class);
-//                            CameraActivity.this.startActivity(intent);
-//
-//                            remove();
-//
-//                        } else {
-//                            isMoved = true;
-//                        }
+                        if (Math.abs(fmoveX - start_X) < offset && Math.abs(fmoveY - start_Y) < offset) {
+                            isMoved = false;
+
+                            Log.e(TAG, "isShowScale:  " + isShowScale);
+                            if (!isShowScale) {
+                                Intent intent = new Intent(CameraActivity.this, CameraActivity.class);
+                                CameraActivity.this.startActivity(intent);
+
+//                                remove();
+                            }
+                        } else {
+                            isMoved = true;
+                        }
                         isMoved = true;
                         break;
                 }
@@ -345,13 +514,15 @@ public class CameraActivity extends MPermissionsActivity implements SurfaceHolde
         });
 
         isInit = false;
-
+        isShowScale = false;
     }
 
     public static void remove() {
         if (windowManager != null && toucherLayout != null) {
             windowManager.removeView(toucherLayout);
             isInit = true;
+            Log.e(TAG, "isShowScale:  " + isShowScale);
+            isShowScale = true;
         }
     }
 
@@ -369,51 +540,6 @@ public class CameraActivity extends MPermissionsActivity implements SurfaceHolde
         return context.getResources().getDisplayMetrics().heightPixels;
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.e(TAG, "执行onStart()");
-    }
-
-    /**
-     * 界面运行时调用
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.e(TAG, "执行onResume()");
-//        boolean b = checkCameraHardware();
-//        Log.e(TAG, " " + b);
-//        if (checkCameraHardware()) {
-//            mHolder = surface.getHolder();//获取控制绘制的对象
-//            mHolder.addCallback(this);//设置回调监听
-//        }
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.e(TAG, "执行onRestart()");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.e(TAG, "执行onPause()");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.e(TAG, "执行onStop()");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.e(TAG, "执行onDestroy()");
-    }
-
     /**
      * 返回键退出应用(连按两次)
      */
@@ -429,8 +555,6 @@ public class CameraActivity extends MPermissionsActivity implements SurfaceHolde
                 touchTime = currentTime;
             } else {
                 finish();
-                remove();
-
             }
             return true;
         } else if (KeyEvent.KEYCODE_HOME == keyCode) {
@@ -589,10 +713,10 @@ public class CameraActivity extends MPermissionsActivity implements SurfaceHolde
      * @param camera
      */
     private void setCameraDisplayOrientation(
-            Activity activity, int cameraId, android.hardware.Camera camera) {
-        android.hardware.Camera.CameraInfo info =
-                new android.hardware.Camera.CameraInfo();
-        android.hardware.Camera.getCameraInfo(cameraId, info);
+            Activity activity, int cameraId, Camera camera) {
+        Camera.CameraInfo info =
+                new Camera.CameraInfo();
+        Camera.getCameraInfo(cameraId, info);
         int rotation = activity.getWindowManager().getDefaultDisplay()
                 .getRotation();
         int degrees = 0;
@@ -651,7 +775,6 @@ public class CameraActivity extends MPermissionsActivity implements SurfaceHolde
             }
         });
     }
-
 
 //    /******************************************************* 开启和关闭闪关灯的功能 ***************************************************/
 //    /**

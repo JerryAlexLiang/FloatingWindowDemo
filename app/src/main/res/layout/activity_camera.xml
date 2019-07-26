@@ -28,7 +28,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="悬浮框"
+            android:text="首页"
             android:textColor="#ffffff"
             android:textSize="18sp" />
 
@@ -36,38 +36,29 @@
             android:id="@+id/iv_small_btn"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginEnd="10dp"
             android:padding="10dp"
-            android:src="@mipmap/icon_close"
+            android:layout_marginEnd="10dp"
+            android:src="@mipmap/alivc_playstate_play"
             android:visibility="visible" />
 
 
     </LinearLayout>
 
-    <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
+    <VideoView
+        android:id="@+id/video_view"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
 
-        <!--&lt;!&ndash; 用于显示图像 &ndash;&gt;-->
-        <!--<SurfaceView-->
-            <!--android:id="@+id/surface"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent" />-->
-
-        <!--&lt;!&ndash; 用于开启拍照功能 &ndash;&gt;-->
-        <!--<ImageButton-->
-            <!--android:id="@+id/take_photo"-->
-            <!--android:layout_width="60dp"-->
-            <!--android:layout_height="60dp"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:layout_gravity="center_horizontal"-->
-            <!--android:layout_marginTop="20dp"-->
-            <!--android:layout_marginBottom="20dp"-->
-            <!--android:background="@color/ColorTransparent"-->
-            <!--android:scaleType="fitXY"-->
-            <!--android:src="@drawable/take_picture_button" />-->
-
-    <!--</RelativeLayout>-->
+    <cc.ibooker.zcountdownviewlib.SingleCountDownView
+        android:id="@+id/singleCountDownView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:layout_marginTop="150dp"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#FF7198"
+        android:textSize="23sp"
+        android:text="开始倒计时"/>
 
 </LinearLayout>

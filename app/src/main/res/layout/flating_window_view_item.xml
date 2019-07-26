@@ -40,9 +40,28 @@
 
     </LinearLayout>
 
+    <VideoView
+        android:id="@+id/video_view_float"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_gravity="center"/>
+
+    <cc.ibooker.zcountdownviewlib.SingleCountDownView
+        android:id="@+id/singleCountDownView_Float"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:padding="5dp"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#FF7198"
+        android:background="#000000"
+        android:textSize="23sp"
+        android:text="开始倒计时"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="2">
 
         <!-- 用于显示图像 -->
         <SurfaceView
@@ -50,11 +69,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <!-- 用于开启拍照功能 -->
+        <!-- 用于开启拍照功能
+         android:src="@drawable/take_picture_button" -->
         <ImageButton
             android:id="@+id/btn_take_photo"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
@@ -62,7 +82,7 @@
             android:layout_marginBottom="20dp"
             android:background="@color/ColorTransparent"
             android:scaleType="fitXY"
-            android:src="@drawable/take_picture_button" />
+            android:src="@mipmap/course_fullscrence_icon_hen"/>
 
     </RelativeLayout>
 
