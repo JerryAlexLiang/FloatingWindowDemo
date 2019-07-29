@@ -32,6 +32,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -57,10 +58,16 @@ public class CameraActivity extends MPermissionsActivity implements SurfaceHolde
     ImageView ivBackBtn;
     @BindView(R.id.iv_small_btn)
     ImageView ivSmallBtn;
-//    @BindView(R.id.surface)
+    //    @BindView(R.id.surface)
 //    SurfaceView surface;
 //    @BindView(R.id.take_photo)
 //    ImageButton takePhoto;
+    @BindView(R.id.video_view)
+    VideoView videoView;
+    @BindView(R.id.singleCountDownView)
+    SingleCountDownView singleCountDownView;
+    @BindView(R.id.btn_jump_main)
+    Button btnJumpMain;
 
     //布局参数.
     private static WindowManager.LayoutParams params;
@@ -86,10 +93,7 @@ public class CameraActivity extends MPermissionsActivity implements SurfaceHolde
     private static boolean isInit = true;
     private static boolean isScale = true;
     private static boolean isShowScale = true;
-    @BindView(R.id.video_view)
-    VideoView videoView;
-    @BindView(R.id.singleCountDownView)
-    SingleCountDownView singleCountDownView;
+
     private MediaController controller;//控制器
     private MediaController controllerFloat;//控制器
 
@@ -233,7 +237,7 @@ public class CameraActivity extends MPermissionsActivity implements SurfaceHolde
         }
     }
 
-    @OnClick({R.id.iv_back_btn, R.id.iv_small_btn})
+    @OnClick({R.id.iv_back_btn, R.id.iv_small_btn, R.id.btn_jump_main})
     public void onViewClicked(View view) {
         switch (view.getId()) {
 
@@ -249,6 +253,11 @@ public class CameraActivity extends MPermissionsActivity implements SurfaceHolde
                     Toast.makeText(this, "首先关闭悬浮窗", Toast.LENGTH_SHORT).show();
                 }
 //                finish();
+                break;
+
+            case R.id.btn_jump_main:
+                Intent intent = new Intent(CameraActivity.this, MainActivity.class);
+                startActivity(intent);
                 break;
 
         }

@@ -36,8 +36,8 @@
             android:id="@+id/iv_small_btn"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:padding="10dp"
             android:layout_marginEnd="10dp"
+            android:padding="10dp"
             android:src="@mipmap/alivc_playstate_play"
             android:visibility="visible" />
 
@@ -53,12 +53,21 @@
         android:id="@+id/singleCountDownView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="20dp"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="150dp"
         android:gravity="center"
-        android:layout_gravity="center_horizontal"
+        android:padding="20dp"
+        android:text="开始倒计时"
         android:textColor="#FF7198"
-        android:textSize="23sp"
-        android:text="开始倒计时"/>
+        android:textSize="23sp" />
+
+    <Button
+        android:id="@+id/btn_jump_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
+        android:text="点击跳转" />
 
 </LinearLayout>
