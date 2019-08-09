@@ -444,6 +444,7 @@ public class CameraActivity extends MPermissionsActivity implements SurfaceHolde
                     } else {
                         windowManager.updateViewLayout(toucherLayout, params);
                     }
+                    videoViewFloat.setVisibility(View.GONE);
                     isScale = false;
                 } else {
                     Toast.makeText(CameraActivity.this, "点击变大", Toast.LENGTH_SHORT).show();
@@ -457,6 +458,7 @@ public class CameraActivity extends MPermissionsActivity implements SurfaceHolde
                     } else {
                         windowManager.updateViewLayout(toucherLayout, params);
                     }
+                    videoViewFloat.setVisibility(View.VISIBLE);
                     isScale = true;
                 }
 
