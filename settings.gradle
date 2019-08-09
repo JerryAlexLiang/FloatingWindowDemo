@@ -1,1 +1,1 @@
-include ':app', ':CustomCamera1'
+include ':app', ':PictureInPicture'
