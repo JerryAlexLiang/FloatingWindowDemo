@@ -50,7 +50,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cc.ibooker.zcountdownviewlib.SingleCountDownView;
-
+/**
+ * 创建日期：2019/8/12 on 9:27
+ * 描述: CameraActivity
+ * 作者: liangyang
+ */
 public class CameraActivity extends MPermissionsActivity implements SurfaceHolder.Callback, Camera.PreviewCallback {
 
     private static final String TAG = CameraActivity.class.getSimpleName();
@@ -284,7 +288,7 @@ public class CameraActivity extends MPermissionsActivity implements SurfaceHolde
         } else {
             //6.0以下　只有MUI会修改权限
             if (MIUI.rom()) {
-                if (PermissionUtils.hasPermission(this)) {
+                if (WindowPermissionUtils.hasPermission(this)) {
                     showWindow();
 //                    finish();
                 } else {

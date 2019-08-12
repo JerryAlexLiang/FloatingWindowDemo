@@ -29,9 +29,9 @@ import java.io.IOException;
 
 
 /**
- * Description:初始化直播弹窗工具
- * Created by PangHaHa on 18-7-18.
- * Copyright (c) 2018 PangHaHa All rights reserved.
+ * 创建日期：2019/8/12 on 9:27
+ * 描述: Description:初始化直播弹窗工具
+ * 作者: liangyang
  */
 public class LiveUtils extends AppCompatActivity {
 

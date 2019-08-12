@@ -6,9 +6,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * Created by hezhiqiang on 2018/8/30.
+ * 创建日期：2019/8/12 on 9:27
+ * 描述: 魅族操作系统定制
+ * 作者: liangyang
  */
-
 public class MEIZU {
     /**
      *   判断是魅族操作系统

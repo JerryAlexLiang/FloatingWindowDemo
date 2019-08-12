@@ -12,14 +12,9 @@ import java.lang.reflect.Field;
 
 import static com.arcvideo.snapshot.floatingwindowdemo.Rom.isIntentAvailable;
 
-
 /**
- * Description:
- * Created by PangHaHa on 18-7-25.
- * Copyright (c) 2018 PangHaHa All rights reserved.
- *
- *  /**
- * <p>
+ * 创建日期：2019/8/12 on 9:28
+ * 描述: 小米手机定制
  * 需要清楚：一个MIUI版本对应小米各种机型，基于不同的安卓版本，但是权限设置页跟MIUI版本有关
  * 测试TYPE_TOAST类型：
  * 7.0：
@@ -37,8 +32,8 @@ import static com.arcvideo.snapshot.floatingwindowdemo.Rom.isIntentAvailable;
  * 经过各种横向纵向测试对比，得出一个结论，就是小米对TYPE_TOAST的处理机制毫无规律可言！
  * 跟Android版本无关，跟MIUI版本无关，addView方法也不报错
  * 所以最后对小米6.0以上的适配方法是：不使用 TYPE_TOAST 类型，统一申请权限
+ * 作者: liangyang
  */
-
 public class MIUI {
 
     private static final String miui = "ro.miui.ui.version.name";
@@ -47,7 +42,6 @@ public class MIUI {
     private static final String miui7 = "V7";
     private static final String miui8 = "V8";
     private static final String miui9 = "V9";
-
 
 
     public static boolean rom() {
